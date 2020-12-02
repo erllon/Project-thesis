@@ -19,10 +19,10 @@ class FeasibleSpace(Polygon):
 
   def plot(self, axis):
     x, y = self.exterior.xy
-    axis.plot(x, y, color="gray")
+    axis.plot(x, y, color="black")
     for interior in self.interiors:
       x, y = interior.xy
-      axis.fill(x, y, fc="gray")
+      axis.fill(x, y, fc="grey")
 
   def is_point_feasible(self, point):
     return self.prepped.contains(Point(point))
