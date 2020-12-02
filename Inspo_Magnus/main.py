@@ -134,16 +134,13 @@ if __name__ == "__main__":
   ############################################
   ############## 3 DRONES ####################
   ############################################
-  N_agents =  3# 3,5funker fint med stor obstacle, bruk disse 6 funker også, men blir små lyseblå "merker" slik som tidligere, 4,7 funker ikke
-  #3 funker ok
-  #3,4 funker ok, 5 funker ikke
-
+  N_agents =  3
   sensing_r = 4
-  comm_r = 2*sensing_r#2*sensing_r
+  comm_r = 2*sensing_r
 
   agents = [
     Agent(
-      base_pos + np.array([(i+1)*0.05, (i+1)*0.05]),#+ np.random.uniform(0, 0.16, 2), #np.array([-16, -16]) + np.random.uniform(0, 0.16, 2),
+      base_pos + np.array([(i+1)*0.05, (i+1)*0.05]),
       F, sensing_radius=sensing_r, communication_radius=comm_r)
     for i in range(N_agents)]
   for agent in agents:
@@ -159,8 +156,6 @@ if __name__ == "__main__":
   axs[0].axis('equal')
 
   F.plot(axs[0])
-  # for agent in agents:
-  #   agent.plot(axs[0])
   
   hist_obj_val = np.zeros(1)
   cov_area_3 = np.zeros(1)
@@ -175,11 +170,8 @@ if __name__ == "__main__":
       hist_obj_val = np.append(hist_obj_val, obj_val)
   print(f"hist_obj_val:\n{hist_obj_val}")
   print(f"cov_area_3:\n{cov_area_3}")
-
-
     
-  axs[1].set_title("Final formation, 5 drones")
-  axs[1].axis('equal')
+
   F.plot(axs[0])
   positions = []
   for agent in agents:
@@ -206,18 +198,16 @@ if __name__ == "__main__":
 
   fig2, axs2 = plt.subplots(1,2, num=2,clear=True)
   axs2[0].set(xlim=(-4,90), ylim=(-10,225))
-  axs2[0].set(xlim=(-4,90), ylim=(-10,225))
+  axs2[1].set(xlim=(-4,90), ylim=(-10,225))
 
   axs2[0].set_title("Covered area, 3 drones")
   axs2[1].set_title("Covered area, 5 drones")
 
-  axs2[0].plot(range(len(cov_area_3)), cov_area_3)
+  axs2[0].plot(cov_area_3)
 
-  fig3, axs3 = plt.subplots(num=3,clear=True)
-  
-  axs3.set_title("Cost function")
-  axs3.plot(range(len(hist_obj_val)), hist_obj_val)
-
+  fi4, axs4 = plt.subplots(num=4)
+  axs4.set_title("Covered area")
+  axs4.plot(cov_area_3,label="3 drones")
 
   final_cover = get_covered_polygon(F, agents)
   if isinstance(final_cover, Polygon):
@@ -233,7 +223,24 @@ if __name__ == "__main__":
   print("************FERDIG MED SIMULERING FOR 3 DRONER***********")
   print("*************BEGYNNER SIMULERING MED 5 DRONER************")
 
-  #axs[
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   ############################################
   ############## 5 DRONES ####################
   ############################################
@@ -257,10 +264,9 @@ if __name__ == "__main__":
     agent.compute_opt_dependencies()
   initial_cover = get_covered_polygon(F, agents) #Not used
   
-  fi4, axs4 = plt.subplots(2, num=4)
-  
-  axs4[0].set_title("Initial")
-  axs4[0].axis('equal')
+
+  # axs4[0].set_title("Initial")
+  # axs4[0].axis('equal')
 
   # F.plot(axs4[0])
   # for agent in agents:
@@ -282,9 +288,11 @@ if __name__ == "__main__":
 
 
     
-  axs4[1].set_title("Final")
-  axs4[1].axis('equal')
+  # axs4[1].set_title("Final")
+  # axs4[1].axis('equal')
   # F.plot(axs4[1])
+  axs[1].set_title("Final formation, 5 drones")
+  axs[1].axis('equal')
   F.plot(axs[1])
 
   # positions = []
@@ -319,15 +327,14 @@ if __name__ == "__main__":
         # axs4[1].plot(x_values, y_values, 'b')
         axs[1].plot(x_values, y_values, 'b')
 
+  axs2[1].plot(cov_area_5)
 
+  axs4.plot(cov_area_5,label="5 drones")
+  axs4.legend()
 
-  fig5, axs5 = plt.subplots(num=5,clear=True)
-  axs5.set_title("Covered area")
-  axs5.plot(range(len(cov_area_5)), cov_area_5)
-  axs2[1].plot(range(len(cov_area_5)), cov_area_5)
-  fig6, axs6 = plt.subplots(num=6,clear=True)
-  axs6.set_title("Cost function")
-  axs6.plot(range(len(hist_obj_val)), hist_obj_val)
+  # fig6, axs6 = plt.subplots(num=6,clear=True)
+  # axs6.set_title("Cost function")
+  # axs6.plot(range(len(hist_obj_val)), hist_obj_val)
 
 
   final_cover = get_covered_polygon(F, agents)
@@ -342,5 +349,3 @@ if __name__ == "__main__":
   print(f"total possibble coverage: {N_agents * np.pi * sensing_r**2}")
 
   plt.show()
-
-  
