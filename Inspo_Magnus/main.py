@@ -70,6 +70,13 @@ if __name__ == "__main__":
     #   (-5,  -6),
     #   (-5, 15.995),
     #   (-6,  15.995)]),
+    # np.array([
+    #   (-15.995, -5),
+    #   (-6.005,  -5),
+    #   (-6.005, -6),
+    #   (-15.995,  -6)
+    #   ]),
+    # STOR OBSTACLE (under)
     np.array([
       (-15.995, 15.995),
       (-6.005,  15.995),
@@ -78,8 +85,8 @@ if __name__ == "__main__":
       ]),
     np.array([
       (6, -15.995),
-      (7,  -15.995),
-      (7, 10),
+      (15.995,  -15.995),
+      (15.995, 10),
       (6,  10)
       ])
   ]
@@ -131,7 +138,7 @@ if __name__ == "__main__":
     ]),obstacles#obstacles2#obstacles2#[] #obstacles
   )
 
-  N_agents =  6# 3funker fint med stor obstacle
+  N_agents =  5# 3,5funker fint med stor obstacle, bruk disse 6 funker også, men blir små lyseblå "merker" slik som tidligere, 4,7 funker ikke
   #3 funker ok
   #3,4 funker ok, 5 funker ikke
 
