@@ -1,5 +1,5 @@
 # See https://se.mathworks.com/help/optim/ug/fmincon.html for results using MATLAB fmincon()
-
+# Documentation on scipy.optimize.minimize() https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html
 
 # minimize returns:
 #     fun: value of objective function at solution
