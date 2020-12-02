@@ -146,7 +146,7 @@ class Agent():
   def plot(self, axis, color="red"):
     axis.scatter(self.s[0], self.s[1], color=color)
     xs, ys = self.visible_set.exterior.xy
-    axis.fill(xs, ys, alpha=0.8, fc=color, ec='none')
+    axis.fill(xs, ys, alpha=0.1, fc=color, ec='none')
 
   def __compute_objective_aux(self, points):
     return self.R(points)*self.phi(points,self.B)*self.p(points) #self.R(points)*self.g_V(points)*self.p(points)  self.R(points)*self.phi(points,self.B)*self.p(points)

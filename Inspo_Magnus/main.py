@@ -145,14 +145,14 @@ if __name__ == "__main__":
       x_values_b = [agent.s[0], base_pos[0]]
       y_values_b = [agent.s[1], base_pos[1]]
     
-      axs[0].plot(x_values_b, y_values_b, 'b')
+      axs[0].plot(x_values_b, y_values_b, 'r')
     for other in agent.other_agents:
       if agent.compute_c(other.s) == 1:
         agent.neighboors.append(other.node_id)
         x_values = [agent.s[0], other.s[0]]
         y_values = [agent.s[1], other.s[1]]
     
-        axs[0].plot(x_values, y_values, 'b')
+        axs[0].plot(x_values, y_values, 'r')
 
 
   fig2, axs2 = plt.subplots(1,2, num=2,clear=True)
@@ -171,11 +171,11 @@ if __name__ == "__main__":
   final_cover = get_covered_polygon(F, agents3)
   if isinstance(final_cover, Polygon):
     x, y = final_cover.exterior.xy
-    axs[0].fill(x, y, color="blue", alpha=0.5)
+    axs[0].fill(x, y, color='b', alpha=0.5)
   else:
     for geom in final_cover.geoms:
       x, y = geom.exterior.xy
-      axs[0].fill(x, y, color="blue", alpha=0.5)
+      axs[0].fill(x, y, color='b', alpha=0.5)
   print(f"final covered area: {final_cover.area}")
   print(f"total possibble coverage: {N_agents * np.pi * sensing_r**2}")
 
@@ -221,6 +221,7 @@ if __name__ == "__main__":
     agent.compute_opt_dependencies()
   initial_cover = get_covered_polygon(F, agents5) #Not used
 
+  F.plot(axs[1])
   
   hist_obj_val = np.zeros(1)
   cov_area_5 = np.zeros(1)
@@ -238,9 +239,7 @@ if __name__ == "__main__":
 
   axs[1].set_title("Final formation, 5 drones")
   axs[1].axis('equal')
-  F.plot(axs[1])
-
-  axs[1].plot(base_pos[0], base_pos[1],"r^")
+  # F.plot(axs[1])
 
   for agent in agents5:
     agent.plot(axs[1])
@@ -253,7 +252,7 @@ if __name__ == "__main__":
       x_values_b = [agent.s[0], base_pos[0]]
       y_values_b = [agent.s[1], base_pos[1]]
     
-      axs[1].plot(x_values_b, y_values_b, 'b')
+      axs[1].plot(x_values_b, y_values_b, 'r')
 
     for other in agent.other_agents:
       if agent.compute_c(other.s) == 1:
@@ -261,7 +260,7 @@ if __name__ == "__main__":
         x_values = [agent.s[0], other.s[0]]
         y_values = [agent.s[1], other.s[1]]
     
-        axs[1].plot(x_values, y_values, 'b')
+        axs[1].plot(x_values, y_values, 'r')
 
   axs2[1].plot(cov_area_5)
 
@@ -272,11 +271,11 @@ if __name__ == "__main__":
   final_cover = get_covered_polygon(F, agents5)
   if isinstance(final_cover, Polygon):
     x, y = final_cover.exterior.xy
-    axs[1].fill(x, y, color="blue", alpha=0.5)
+    axs[1].fill(x, y, color='b', alpha=0.5)
   else:
     for geom in final_cover.geoms:
       x, y = geom.exterior.xy
-      axs[1].fill(x, y, color="blue", alpha=0.5)
+      axs[1].fill(x, y, color='b', alpha=0.5)
   print(f"final covered area: {final_cover.area}")
   print(f"total possibble coverage: {N_agents * np.pi * sensing_r**2}")
 
