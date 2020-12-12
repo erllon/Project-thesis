@@ -60,7 +60,7 @@ class Agent():
     E_I = self.__get_E_I()
     E_B = self.__get_E_B()
 
-    self.grad_traj = np.hstack((self.grad_traj, (E_B + E_B).reshape(2, 1)))#np.hstack((self.grad_traj, (E_B + E_I).reshape(2, 1)))
+    self.grad_traj = np.hstack((self.grad_traj, (E_B + E_B).reshape(2, 1)))
     self.gradient = E_I + E_B
 
   def do_step(self):
@@ -90,15 +90,11 @@ class Agent():
         print(f"converged due to zero step size {step_size}")
         return
       feasible = self.feasible_space.is_point_feasible(step_s) and self.in_FoV(step_s)
-      obj_at_s = -float("inf") if not feasible else self.get_objective_at_point(step_s)
-      #Should get the node_id, not simply assigning j. For 3 agents, [0,1] most of the times
-      #test = np.array([j for j in range(len(self.other_agents)) if np.linalg.norm(step_s - self.other_agents[j].s) <= self.communication_radius])
-      #print(test)
       drones_within_comm_range = np.array([j for j in range(len(self.other_agents)) if np.linalg.norm(step_s - self.other_agents[j].s) <= self.communication_radius])
       if feasible and obj_at_s >= self.objective_val and len(drones_within_comm_range) > 0: # ==len(self.B): 
         perform_step = True
       else:
-        step_size *= 0.8#2/3# /0.7#/= 2
+        step_size *= 0.8 #*0.5
     print(f"step direction: {step_dir}")
     self.s = step_s
     self.prev_objective_val = deepcopy(self.objective_val)
@@ -149,7 +145,7 @@ class Agent():
     axis.fill(xs, ys, alpha=0.1, fc=color, ec='none')
 
   def __compute_objective_aux(self, points):
-    return self.R(points)*self.phi(points,self.B)*self.p(points) #self.R(points)*self.g_V(points)*self.p(points)  self.R(points)*self.phi(points,self.B)*self.p(points)
+    return self.R(points)*self.phi(points,self.B)*self.p(points)
 
   def in_FoV(self, x):
     line = LineString([self.s, x])
@@ -179,9 +175,6 @@ class Agent():
         ]))
     vs = Point(self.s).buffer(self.sensing_radius).difference(cascaded_union(polygons)).intersection(self.feasible_space) #unary_union
     if not isinstance(vs, Polygon):
-      #print(f"WARNING: visible set consists of {len(vs.geoms)} geometries. Discarding all but the largest one")
-      #for geom in vs.geoms:
-      #  print(f"Geom area: {geom.area}")
       self.__set_visible_set_aux(max(vs, key = lambda geom: geom.area))
     else:
       self.__set_visible_set_aux(vs)
@@ -219,14 +212,13 @@ class Agent():
     assert False, f"No normal vector to {anchor} pointing to the interior of visible_set"
   
   def set_B(self):
-    self.B = np.array([j for j in range(len(self.other_agents)) if np.linalg.norm(self.s - self.other_agents[j].s) <= 2*self.sensing_radius])#1*self.communication_radius])
+    self.B = np.array([j for j in range(len(self.other_agents)) if np.linalg.norm(self.s - self.other_agents[j].s) <= 2*self.sensing_radius])
 
   def set_C(self, agents):
     self.C = np.array([j for j in range(len(self.other_agents)) if np.linalg.norm(self.s - self.other_agents[j].s) > 2*self.sensing_radius])
 
-  def compute_c(self, s_other): #THIS CHECKS ONLY FOR c1 IN ARTICLE, LINE OF SIGHT IS NOT CHECKED
+  def compute_c(self, s_other):
     return 1 if np.linalg.norm(self.s - s_other) <= 1.01*self.communication_radius else 0
-    #self.c = 1 if np.linalg.norm(self.s - s_other) <= self.communication_radius else 0
     
 
   def p(self, x):
@@ -237,8 +229,7 @@ class Agent():
     except ValueError:
       _, w = x.shape
       pos = np.repeat(self.s.reshape(2, 1), w, axis=1)
-      #print(f"test = {self.p0*np.exp(-self._lambda*np.linalg.norm(pos - x, axis=0))}")
-    return self.p0*np.exp(-self._lambda*(np.linalg.norm(pos - x, axis=0)-self.sensing_radius)) # Bytte ut med sigmoid1*sigmoid2? Se OneNote
+    return self.p0*np.exp(-self._lambda*(np.linalg.norm(pos - x, axis=0)-self.sensing_radius))
 
   def p_hat(self, x):
     mask = None
