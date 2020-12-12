@@ -29,7 +29,7 @@ def closest_node(node, nodes):
   
 
 if __name__ == "__main__":
-
+# %% Plotting styles
   # set styles
   try:
       # installed with "pip install SciencePLots" (https://github.com/garrettj403/SciencePlots.git)
@@ -56,6 +56,7 @@ if __name__ == "__main__":
           }
       )
 
+# %% Initialization
   base_pos = np.array([-16,-16])
   obstacles = [
     np.array([
@@ -71,15 +72,6 @@ if __name__ == "__main__":
       (6,  10)
       ])
   ]
-
-  obstacles2 = [
-    np.array([
-      (-8, 5),
-      (-9, 5),
-      (-9, -10),
-      (-8,-10)
-    ])
-    ]
     
   F = FeasibleSpace(
     np.array([
@@ -87,12 +79,10 @@ if __name__ == "__main__":
       (16, -16),
       (16, 16),
       (-16, 16)
-    ]),obstacles#obstacles2#obstacles2#[] #obstacles
+    ]),obstacles
   )
 
-  ############################################
-  ############## 3 DRONES ####################
-  ############################################
+# %% Simulate 3 drones
   N_agents =  3
   sensing_r = 4
   comm_r = 2*sensing_r
@@ -152,11 +142,8 @@ if __name__ == "__main__":
     agent.plot(axs10[1])
     positions.append(agent.s)
   axs[0].plot(base_pos[0], base_pos[1],"r^")
-  axs10[1].plot(base_pos[0], base_pos[1],"r^")
+  axs10[1].plot(base_pos[0], base_pos[1],"r^")  
 
-  
-
-# %% Agents
   for agent in agents3:
     if agent.compute_c(base_pos) == 1:
       x_values_b = [agent.s[0], base_pos[0]]
@@ -173,7 +160,6 @@ if __name__ == "__main__":
     
         axs[0].plot(x_values, y_values, 'r')
         axs10[1].plot(x_values, y_values, 'r')
-
 
 
   fig2, axs2 = plt.subplots(1,2, num=2,clear=True)
@@ -203,32 +189,9 @@ if __name__ == "__main__":
       axs10[1].fill(x, y, color='b', alpha=0.5)
   print(f"final covered area: {final_cover.area}")
   print(f"total possible coverage: {N_agents * np.pi * sensing_r**2}")
-
-  print("************FERDIG MED SIMULERING FOR 3 DRONER***********")
-  print("*************BEGYNNER SIMULERING MED 5 DRONER************")
-
   
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  ############################################
-  ############## 5 DRONES ####################
-  ############################################
-
+# %% Simulating 5 drones 
   N_agents =  5
 
   sensing_r = 4
@@ -284,8 +247,6 @@ if __name__ == "__main__":
   axs[1].plot(base_pos[0], base_pos[1],"r^") 
   axs11[1].plot(base_pos[0], base_pos[1],"r^")  
 
-
-# %% Agents
   for agent in agents5:
     if agent.compute_c(base_pos) == 1:
       x_values_b = [agent.s[0], base_pos[0]]
