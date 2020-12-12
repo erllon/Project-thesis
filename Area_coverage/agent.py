@@ -71,7 +71,7 @@ class Agent():
 
     if self.converged:
       self.converged = False
-    step_size = 4
+    step_size = 4#2/3 #4
     if np.linalg.norm(self.gradient) == 0:
       self.converged = True
       print("converged due to zero gradient")
@@ -98,7 +98,7 @@ class Agent():
       if feasible and obj_at_s >= self.objective_val and len(drones_within_comm_range) > 0: # ==len(self.B): 
         perform_step = True
       else:
-        step_size /= 2
+        step_size *= 0.8#2/3# /0.7#/= 2
     print(f"step direction: {step_dir}")
     self.s = step_s
     self.prev_objective_val = deepcopy(self.objective_val)
