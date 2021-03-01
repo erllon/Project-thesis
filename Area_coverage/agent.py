@@ -92,11 +92,11 @@ class Agent():
       feasible = self.feasible_space.is_point_feasible(step_s) and self.in_FoV(step_s)
       obj_at_s = -float("inf") if not feasible else self.get_objective_at_point(step_s)
       drones_within_comm_range = np.array([j for j in range(len(self.other_agents)) if np.linalg.norm(step_s - self.other_agents[j].s) <= self.communication_radius])
-      #if obj_at_s != None:
+
       if feasible and obj_at_s >= self.objective_val and len(drones_within_comm_range) > 0: # ==len(self.B): 
         perform_step = True
       else:
-        step_size *= 0.8 #*0.5
+        step_size *= 0.5 #0.5 produces good results, 0.8 leads to loops in the network 
     print(f"step direction: {step_dir}")
     self.s = step_s
     self.prev_objective_val = deepcopy(self.objective_val)
